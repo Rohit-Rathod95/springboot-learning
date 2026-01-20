@@ -1,32 +1,34 @@
 package com.rohit.learning.controller;
 
 import com.rohit.learning.dto.UserRequest;
+import com.rohit.learning.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HelloController {
 
-    // 1️⃣ Simple GET
+    private final GreetingService greetingService;
+
+    // Constructor Injection (BEST PRACTICE)
+    public HelloController(GreetingService greetingService) {
+        this.greetingService = greetingService;
+    }
+
     @GetMapping("/hello")
     public String hello() {
         return "Hello Spring Boot! 🚀";
     }
 
-    // 2️⃣ Path Variable
-    // Example: /greet/Rohit
     @GetMapping("/greet/{name}")
     public String greet(@PathVariable String name) {
-        return "Hello " + name + " 👋";
+        return greetingService.greet(name);
     }
 
-    // 3️⃣ Query Parameter
-    // Example: /add?a=10&b=20
     @GetMapping("/add")
     public int add(@RequestParam int a, @RequestParam int b) {
         return a + b;
     }
 
-    // 4️⃣ POST API with Body
     @PostMapping("/user")
     public String createUser(@RequestBody UserRequest request) {
         return "User created: " + request.getName() + ", Age: " + request.getAge();
