@@ -9,7 +9,6 @@ public class HelloController {
 
     private final GreetingService greetingService;
 
-    // Constructor Injection (BEST PRACTICE)
     public HelloController(GreetingService greetingService) {
         this.greetingService = greetingService;
     }
@@ -31,6 +30,6 @@ public class HelloController {
 
     @PostMapping("/user")
     public String createUser(@RequestBody UserRequest request) {
-        return "User created: " + request.getName() + ", Age: " + request.getAge();
+        return greetingService.createUser(request.getName());
     }
 }
